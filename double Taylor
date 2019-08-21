@@ -1,4 +1,5 @@
 //https://blog.csdn.net/synapse7/article/details/11672691
+//https://forums.epicgames.com/udk/udk-development/udk-programming-and-unrealscript/201997-notation-for-1-0f-0-f-1-f-etc
 
 #include<stdio.h>
 #include<cmath>
