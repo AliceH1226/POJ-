@@ -1,0 +1,13 @@
+//https://blog.csdn.net/synapse7/article/details/11672691
+
+#include<stdio.h>
+#include<cmath>
+
+int main()
+{
+    double n,p;
+    while(~(scanf("%lf%lf",&n,&p)))
+    {
+        printf("%.0f\n",pow(p,1/n));
+    }
+}
