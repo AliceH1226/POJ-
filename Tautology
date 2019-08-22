@@ -1,0 +1,114 @@
+//https://blog.csdn.net/u013486414/article/details/42580691
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<iostream>
+#include<string.h>
+#include<stack>
+#include<algorithm>
+using namespace std;
+
+
+char str[110];
+int p,q,r,s,t;//p,q,r,s,t must be global variabes, otherwise p,q,r,s,t was not declared in IN_stack();
+//if p,q,r,s,t were declared twice, here and the for loop of judge function as local variables, the defalt value of p,q,r,s,t are all zeros,
+//which is wrong 
+stack<int>Q;
+void IN_stack()
+{
+    int i,x,y;
+    for(int i=strlen(str)-1;i>=0;i--)
+    {
+        if(str[i]=='p')
+        {
+            Q.push(p);
+
+        }
+        else if(str[i]=='q')
+        {
+            Q.push(q);
+        }
+        else if(str[i]=='r')
+        {
+            Q.push(r);
+        }
+        else if(str[i]=='s')
+        {
+            Q.push(s);
+        }
+        else if(str[i]=='t')
+        {
+            Q.push(t);
+        }
+        else if(str[i]=='K')
+        {
+            x=Q.top();
+            Q.pop();
+            y=Q.top();
+            Q.pop();
+            Q.push(x&&y);
+        }
+        else if(str[i]=='A')
+        {
+            x=Q.top();
+            Q.pop();
+            y=Q.top();
+            Q.pop();
+            Q.push(x||y);
+        }
+        else if(str[i]=='N')
+        {
+            x=Q.top();
+            Q.pop();
+            Q.push(!x);
+        }
+        else if(str[i]=='C')
+        {
+            x=Q.top();
+            Q.pop();
+            y=Q.top();
+            Q.pop();
+            Q.push((!x)||y);
+        }
+        else if(str[i]=='E')
+        {
+            x=Q.top();
+            Q.pop();
+            y=Q.top();
+            Q.pop();
+            Q.push(x==y);
+        }
+    }
+}
+int judge()
+{
+    for( p=0;p<2;p++)
+        for(  q=0;q<2;q++)
+        for(  r=0;r<2;r++)
+        for(  s=0;s<2;s++)
+        for(  t=0;t<2;t++)
+    {
+        IN_stack();
+        if(Q.top()==0)
+            return 0;
+    }
+    return 1;
+}
+int main()
+{
+    while(~scanf("%s",str))
+    {
+        getchar();
+        if(str[0]=='0')
+        {
+           break;
+        }
+        if(judge())
+        {
+            printf("tautology\n");
+        }
+        else
+            printf("not\n");
+    }
+    return 0;
+}
