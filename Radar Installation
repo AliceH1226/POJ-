@@ -1,0 +1,84 @@
+//https://blog.csdn.net/c20182030/article/details/75107606
+//http://poj.org/problem?id=1328
+
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<iostream>
+using namespace std;
+
+void Read(int &p)
+{
+    p=0;
+    int f=1;
+    char c=getchar();
+    while(c<'0'||c>'9')
+    {
+        f=(c=='-')?-1:1,c=getchar();
+    }
+    while(c>='0'&&c<='9')
+    {
+        p=p*10+c-'0',c=getchar();
+    }
+    p*=f;
+}
+
+struct point
+{
+    double l,r;
+    bool operator <(const point &x) const
+    {
+        if(r!=x.r)
+            return r<x.r;
+        return l<x.l;
+    }
+}p[1234];
+
+int n,x,y,d,sp;
+double delta;
+
+int main()
+{
+    while(1)
+    {
+        Read(n);Read(d);
+        if(!n&&!d)
+            break;
+        bool f=1;
+        for(int i=1;i<=n;i++)
+        {
+            Read(x);Read(y);
+            delta=1.0*d*d-1.0*y*y;
+            if(d>=y)
+            
+                p[i].l=x-sqrt(delta),
+                p[i].r=x+sqrt(delta);
+           
+            else
+            {
+                f=0;//can't break here, or it'll get runtime error
+               
+            }
+           
+                
+           
+            
+        }
+        if(!f)
+        {
+            printf("Case %d: -1\n",++sp);
+            continue;
+        }
+        
+        sort(p+1,p+n+1);
+        double now=p[1].r;
+        int ans=1;
+        for(int i=2;i<=n;i++)
+            if(p[i].l>now)
+            now=p[i].r,ans++;
+                
+        printf("Case %d: %d\n",++sp,ans);
+       
+        
+    }
+}
