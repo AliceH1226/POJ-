@@ -1,0 +1,122 @@
+//http://poj.org/problem?id=2632
+//https://blog.csdn.net/hello_sheep/article/details/78595601
+
+
+#include<stdio.h>
+#include<string.h>
+#include<iostream>
+#define N 105
+using namespace std;
+
+struct node
+{
+    int x,y,dir;
+}num[N];
+
+struct robot
+{
+    int num,step;
+    char dir;
+}robot2[N];
+
+int main()
+{
+    int t,i,j;
+    int map[N][N];
+    int k[4][2]={0,1,1,0,0,-1,-1,0};
+    int n,m,c,r,step,number,flag;
+    char direction;
+    scanf("%d",&t);
+    while(t--)
+    {
+        scanf("%d%d",&c,&r);
+        scanf("%d%d",&n,&m);
+        memset(map,0,sizeof(map));
+        //cout<<"n=="<<n<<endl;
+        for(int i=1;i<=n;i++)
+        {
+          //  cout<<"i=="<<i<<endl;
+            scanf("%d %d %c",&num[i].y,&num[i].x,&direction);//there is a blank between %d and %c; no blank results to input error
+            //the first input is the column, second is the row, since the first input is Xi in the problem description,
+            //and 1<=Xi<=A, A is the length of EW, the same as Yi
+            map[num[i].x][num[i].y]=i;//mark the num of robots before they move
+            if(direction=='E')
+            {
+                num[i].dir=0;
+            }
+            else if(direction=='N')
+            {
+                num[i].dir=1;
+
+            }
+            else if(direction=='W')
+            {
+                num[i].dir=2;
+            }
+            else
+            {
+                num[i].dir=3;
+            }
+        }
+        for(int i=1;i<=m;i++)
+        {
+            scanf("%d %c %d",&robot2[i].num,&robot2[i].dir,&robot2[i].step);//there is a blank between %d and %c; no blank results to input error
+        }
+        flag=0;//crash or not
+        for(int i=1;i<=m;i++)
+        {
+            direction=robot2[i].dir;
+            number=robot2[i].num;
+            step=robot2[i].step;
+            if(direction=='L')//turn left
+            {
+                for(int j=1;j<=step;j++)
+                {
+                    num[number].dir=(num[number].dir+1)%4;
+                }
+            }
+            else if(direction=='R')
+            {
+                for(int j=1;j<=step;j++)
+                {
+                    num[number].dir=(num[number].dir-1+4)%4;
+                }
+            }
+            if(step>0&&direction=='F')
+            {
+                map[num[number].x][num[number].y]=0;//original position for robots marked 0
+                for(int j=1;j<=step;j++)
+                {
+                    num[number].x+=k[num[number].dir][0];
+                    num[number].y+=k[num[number].dir][1];
+                    if(map[num[number].x][num[number].y]!=0)
+                    {
+                        flag=1;
+                        break;
+                    }
+                    else if(num[number].x<1||num[number].x>r||num[number].y<1||num[number].y>c)//y is related to column, x is related to row
+                    {
+                        flag=2;
+                        break;
+                    }
+                }
+                if(flag==1)//crash into the robot
+                {
+                     printf("Robot %d crashes into robot %d\n",number,map[num[number].x][num[number].y]);
+                     break;
+                }
+                if(flag==2)//crash into the wall
+                {
+                    printf("Robot %d crashes into the wall\n",number);
+                    break;
+                }
+
+            }
+            map[num[number].x][num[number].y]=number;//the position marked the number of the robot which finally stop at the position
+        }
+        if(!flag)
+        {
+            printf("OK\n");
+        }
+    }
+}
