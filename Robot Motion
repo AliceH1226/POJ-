@@ -1,0 +1,62 @@
+//http://poj.org/status
+//https://blog.csdn.net/llwwlql/article/details/52829920
+
+
+
+#include<stdio.h>
+#include<string.h>
+
+int map[15][15];
+int main()
+{
+    int n,m,t;
+    int i,j;
+    char str[15][15];
+    while(scanf("%d %d %d", &n,&m,&t),n||m||t)//n is the number of rows, m is the number of column
+    {
+        memset(map,0,sizeof(map));
+        for(int i=0;i<n;i++)
+        {
+            scanf("%s",str[i]);
+        }
+        int x,y;
+        x=0,y=t-1;
+        int index1=1,index2;
+        int peace=0;
+        while(!(x<0||x>=n||y<0||y>=m))//x is related to n, row, y is related to m, column
+        {
+            if(map[x][y]!=0)
+            {
+                peace=1;
+                index2=map[x][y];
+                break;
+            }
+            map[x][y]=index1++;//map is the steps taken currently
+            if(str[x][y]=='W')
+            {
+                y--;
+            }
+            else if(str[x][y]=='E')
+            {
+                y++;
+            }
+            else if(str[x][y]=='N')
+            {
+                x--;
+            }
+            else 
+            {
+                x++;
+            }
+        }
+        if(peace)
+        {
+            printf("%d step(s) before a loop of %d step(s)\n",index2-1,index1-index2);
+        }
+        else
+        {
+            printf("%d step(s) to exit\n",index1-1);
+            
+        }
+    }
+}
