@@ -1,0 +1,70 @@
+//http://poj.org/problem?id=1068
+//https://blog.csdn.net/freezhanacmore/article/details/9612033
+
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+const int maxn=2000;
+
+int vis[maxn];
+int a[maxn];
+
+int main()
+{
+    int T;
+    int n;
+    scanf("%d",&T);
+    while(T--)
+    {
+        scanf("%d",&n);
+        memset(vis,0,sizeof(vis));
+        memset(a,0,sizeof(a));
+        int x;
+        int t=0;//number of left parentheses currently
+        int index=1;//index of current parentheses
+        int j;
+        for(int i=0;i<n;i++)
+        {
+            scanf("%d",&x);
+            //every time input information corresponding to the right parentheses, make up its left parentheses
+            if(x>t)
+            {
+                int tmp=x-t;//index of current left parentheses for making up
+                t=x;//update t
+                while(tmp--)
+                {
+                    a[index++]=0;//make up the left parentheses
+                }
+
+
+            }
+            a[index++]=1;//record current right parentheses
+        }
+        int flag=0;
+        int num=index;//num is equal to total number of parentheses plus one; also equals to n*2+1, since n is the number of the left or right parenthesis
+        for(int i=1;i<num;i++)//traverse from left to right
+        {
+            if(a[i]==1)//right parentheses found
+            {
+                int ans=0;
+                for(int j=i-1;j>=1;j--)//match the i_th right parentheses with the closet left parentheses which on its left
+                {
+                    if(a[j]==0&&vis[j])
+                    {
+                        ans++;
+                    }
+                    else if(a[j]==0&&!vis[j])
+                    {
+                        vis[j]=1;
+                        ans++;
+                        printf("%d ",ans);
+                        break;
+                    }
+                }
+            }
+        }
+        printf("\n");
+
+    }
+}
