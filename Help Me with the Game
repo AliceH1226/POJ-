@@ -1,0 +1,180 @@
+//http://poj.org/problem?id=2996
+//https://www.cnblogs.com/kuangbin/archive/2012/08/13/2636492.html
+
+
+
+
+
+#include<stdio.h>
+#include<string.h>
+#include<iostream>
+using namespace std;
+
+const int maxn=40;
+char map[maxn][maxn];
+
+int main()
+{
+    for(int i=0;i<17;i++)
+    {
+        scanf("%s",&map[i]);
+        
+    }
+    printf("White: ");
+    bool flag=false;
+    
+    for(int i=15;i>=1;i-=2)//mind the order
+    {
+        if(flag)break;
+        for(int j=2;j<=30;j+=4)
+        {
+            if(map[i][j]=='K')
+            {
+                printf("K");
+                printf("%c%d",'a'+j/4,8-i/2);
+                flag=true;
+                break;
+            }
+        }
+    }
+    
+    for(int i=15;i>=1;i-=2)
+    {
+        for(int j=2;j<=30;j+=4)
+        {
+            if(map[i][j]=='Q')
+            {
+                printf(",Q");
+                printf("%c%d",'a'+j/4,8-i/2);
+                
+            }
+        }
+    }
+    for(int i=15;i>=1;i-=2)
+    {
+        for(int j=2;j<=30;j+=4)
+        {
+            if(map[i][j]=='R')
+            {
+                printf(",R");
+                printf("%c%d",'a'+j/4,8-i/2);
+                
+            }
+        }
+    }
+     for(int i=15;i>=1;i-=2)
+    {
+        for(int j=2;j<=30;j+=4)
+        {
+            if(map[i][j]=='B')
+            {
+                printf(",B");
+                printf("%c%d",'a'+j/4,8-i/2);
+                
+            }
+        }
+    }
+     for(int i=15;i>=1;i-=2)
+    {
+        for(int j=2;j<=30;j+=4)
+        {
+            if(map[i][j]=='N')
+            {
+                printf(",N");
+                printf("%c%d",'a'+j/4,8-i/2);
+                
+            }
+        }
+    }
+     for(int i=15;i>=1;i-=2)
+    {
+        for(int j=2;j<=30;j+=4)
+        {
+            if(map[i][j]=='P')
+            {
+                printf(",");
+                printf("%c%d",'a'+j/4,8-i/2);
+                
+            }
+        }
+    }
+    printf("\n");
+    
+    printf("Black: ");
+    flag=false;
+    for(int i=1;i<=15;i+=2)//mind the order
+    {
+        if(flag)break;
+        for(int j=2;j<=30;j+=4)
+        {
+            if(map[i][j]=='k')
+            {
+                printf("K");
+                printf("%c%d",'a'+j/4,8-i/2);
+                flag=true;
+                break;
+            }
+        }
+    }
+    
+    for(int i=1;i<=15;i+=2)
+    {
+        for(int j=2;j<=30;j+=4)
+        {
+            if(map[i][j]=='q')
+            {
+                printf(",Q");
+                printf("%c%d",'a'+j/4,8-i/2);
+            }
+        }
+    }
+    
+    for(int i=1;i<=15;i+=2)
+    {
+        for(int j=2;j<=30;j+=4)
+        {
+            if(map[i][j]=='r')
+            {
+                printf(",R");
+                printf("%c%d",'a'+j/4,8-i/2);
+            }
+        }
+    }
+    
+    for(int i=1;i<=15;i+=2)
+    {
+        for(int j=2;j<=30;j+=4)
+        {
+            if(map[i][j]=='b')
+            {
+                printf(",B");
+                printf("%c%d",'a'+j/4,8-i/2);
+            }
+        }
+    }
+    
+    for(int i=1;i<=15;i+=2)
+    {
+        for(int j=2;j<=30;j+=4)
+        {
+            if(map[i][j]=='n')
+            {
+                printf(",N");
+                printf("%c%d",'a'+j/4,8-i/2);
+            }
+        }
+    }
+    
+    for(int i=1;i<=15;i+=2)
+    {
+        for(int j=2;j<=30;j+=4)
+        {
+            if(map[i][j]=='p')
+            {
+                printf(",");
+                printf("%c%d",'a'+j/4,8-i/2);
+            }
+        }
+    }
+    printf("\n");
+}
