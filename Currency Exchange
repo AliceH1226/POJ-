@@ -1,0 +1,65 @@
+//http://poj.org/problem?id=1860
+//https://blog.csdn.net/a1097304791/article/details/90646305
+
+
+#include<iostream>
+#include<vector>
+#include<string.h>
+using namespace std;
+
+const int maxn=110;
+int N,M,S;
+double V;
+struct Edge
+{
+    double r,c;
+    int u,v;
+    Edge(int uu, int vv, double rr, double cc){u=uu,v=vv,r=rr,c=cc;};
+};
+vector<Edge>es;
+
+double d[maxn];
+bool BellmanFord()
+{
+    memset(d,0,sizeof(d));
+    d[S]=V;
+
+    for(int i=1;i<N;i++)
+    {
+        bool flag=false;
+        for(int j=0;j<es.size();j++)
+        {
+            if(((d[es[j].u]-es[j].c)*es[j].r)>d[es[j].v])
+            {
+                d[es[j].v]=(d[es[j].u]-es[j].c)*es[j].r;
+                flag=true;
+            }
+
+        }
+        if(!flag)break;
+    }
+    for(int j=0;j<es.size();j++)
+    {
+        if((d[es[j].u]-es[j].c)*es[j].r>d[es[j].v])
+        {
+            return true;
+        }
+    }
+    return false;
+}
+int main()
+{
+    int a,b;
+    double Rab,Rba,Cab,Cba;
+    cin>>N>>M>>S>>V;
+    while(M--)
+    {
+        cin>>a>>b>>Rab>>Cab>>Rba>>Cba;
+        es.push_back(Edge(a,b,Rab,Cab));
+        es.push_back(Edge(b,a,Rba,Cba));
+
+    }
+    if(BellmanFord())cout<<"YES"<<endl;
+    else cout<<"NO"<<endl;
+
+}
