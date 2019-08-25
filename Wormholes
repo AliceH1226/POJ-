@@ -1,0 +1,74 @@
+//https://blog.kuoe0.tw/posts/2011/05/17/pku-3259-wormholes/
+//http://poj.org/problem?id=3259
+
+
+
+
+#include<iostream>
+#include<stdio.h>
+#include<queue>
+#include<vector>
+using namespace std;
+
+vector<vector<pair<int,int> > >vertex;
+vector<int>dist,cnt;
+vector<bool>inque;
+int n,k,m;
+
+bool SPFA(int st)
+{
+    queue<int>que;
+    inque=vector<bool>(n+1,0);
+    cnt=vector<int>(n+1,0);
+    dist=vector<int>(n+1,(int)1e9);
+    que.push(st),dist[st]=0,inque[st]=1,cnt[st]=n-1;
+    while(!que.empty())
+    {
+        int now=que.front();
+        que.pop();
+        inque[now]=0;
+        for(int i=0;i<vertex[now].size();++i)
+        {
+            int next=vertex[now][i].first,w=vertex[now][i].second;
+            
+            if(dist[next]>dist[now]+w)
+            {
+                dist[next]=dist[now]+w;
+                if(!inque[next])
+                {
+                    que.push(next),inque[next]=1,++cnt[next];
+                }
+                if(cnt[next]>=n)
+                {
+                    return 0;
+                }
+            }
+        }
+        
+    }
+    return 1;
+}
+
+int main()
+{
+    int t;
+    scanf("%d",&t);
+    while(t--)
+    {
+        scanf("%d%d%d",&n,&m,&k);
+        vertex=vector<vector<pair<int,int> > >(n+1);
+        int a,b,w;
+        for(int i=0;i<m;i++)
+        {
+            scanf("%d%d%d",&a,&b,&w);
+            vertex[a].push_back(pair<int,int>(b,w));
+            vertex[b].push_back(pair<int,int>(a,w));
+        }
+        for(int i=0;i<k;i++)
+        {
+            scanf("%d%d%d",&a,&b,&w);
+            vertex[a].push_back(pair<int,int>(b,-w));
+        }
+        puts(!SPFA(1)?"YES":"NO");
+    }
+}
