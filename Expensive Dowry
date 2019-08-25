@@ -1,0 +1,85 @@
+//https://www.cnblogs.com/gj-Acit/p/3222969.html
+//http://poj.org/problem?id=1062
+
+
+
+
+#include<algorithm>
+#include<cmath>
+#include<stdio.h>
+#include<string.h>
+#include<map>
+#include<vector>
+#define maxn 105
+#define INF 1000000007
+using namespace std;
+
+int Price[maxn], Edge[maxn][maxn], Level[maxn];
+int vis[maxn],d[maxn];
+int n,m,ans;
+
+void init()
+{
+    memset(Price, 0, sizeof(Price));
+    memset(Level, 0, sizeof(Level));
+    for(int i=0;i<=n;i++)
+    {
+        for(int j=0;j<=n;j++)
+        {
+            Edge[i][j]=INF;
+
+        }
+    }
+}
+
+void read()
+{
+    int i,j,X,T,TP;
+    for(i=1;i<=n;i++)
+    {
+        scanf("%d%d%d",&Price[i],&Level[i],&X);
+        for(j=0;j<X;j++)
+        {
+            scanf("%d %d",&T, &TP);
+            Edge[T][i]=TP;
+
+        }
+        Edge[0][i]=Price[i];
+    }
+}
+
+int dijkstra()
+{
+    for(int i=1;i<=n;i++)d[i]=Price[i];
+    for(int i=1;i<=n;i++)
+    {
+        int tmp=INF,x;
+        for(int j=1;j<=n;j++)if(!vis[j]&&d[j]<=tmp)tmp=d[x=j];
+        vis[x]=1;
+        for(int j=1;j<=n;j++)if(d[x]+Edge[x][j]<d[j]&&!vis[j])d[j]=d[x]+Edge[x][j];
+    }
+    return d[1];
+
+}
+
+int main()
+{
+    while(~scanf("%d %d",&m,&n))
+    {
+        init();
+        read();
+        ans=INF;
+        for(int i=1;i<=n;i++)
+        {
+            int minLevel = Level[i];
+            for(int j=1;j<=n;j++)
+            {
+               if(Level[j]-minLevel > m || minLevel > Level[j])vis[j]=1;
+               else vis[j]=0;
+            }
+            int now =dijkstra();
+            ans=min(ans,now);
+        }
+        printf("%d\n",ans);
+    }
+}
