@@ -1,0 +1,98 @@
+//http://poj.org/problem?id=1125
+//https://blog.csdn.net/u014422052/article/details/40301123
+
+
+
+
+
+#include<iostream>
+#include<cstdio>
+#include<cstring>
+#define INF 0x3f3f3f3f
+#define maxn 110
+
+using namespace std;
+
+int n;
+int mp[maxn][maxn];
+
+void floyd()//calculate shortest path between every two points
+{
+    int i,j,k;
+    for(k=1;k<=n;k++)
+    {
+        for(i=1;i<=n;i++)
+        {
+            for(j=1;j<=n;j++)
+            {
+                if(i==k||j==k)
+                {
+                    continue;
+                }
+                mp[i][j]=min(mp[i][j],mp[i][k]+mp[k][j]);
+            }
+        }
+    }
+}
+int main()
+{
+    int i,j,m,t,e;
+    while(scanf("%d",&n)&&n)
+    {
+        memset(mp,INF,sizeof(mp));
+        for(i=1;i<=n;i++)
+        {
+            scanf("%d",&m);
+            if(m>0)
+            {
+                for(j=1;j<=m;j++)
+                {
+                    scanf("%d%d",&e,&t);
+                    mp[i][e]=t;
+
+                }
+            }
+        }
+        floyd();
+        int mi=INF;
+        int p;
+        int flag=0;
+        for(i=1;i<=n;i++)//enumerate every i as start point
+        {
+            int ma=-INF;
+            for(j=1;j<=n;j++)//to see whether it can get to every point starting at i
+            {
+                if(i!=j)
+                {
+                    if(mp[i][j]==INF)
+                        break;
+                     ma=max(ma,mp[i][j]);
+
+                }
+            }
+            if(j==n+1)
+            {
+                flag=1;
+
+            }
+            else
+            {
+                continue;
+
+            }
+            if(mi>ma)
+            {
+                mi=ma;
+                p=i;
+
+            }
+        }
+        if(flag)
+        {
+            printf("%d %d\n",p,mi);
+        }
+        else
+            printf("disjoint\n");
+
+    }
+}
