@@ -1,0 +1,65 @@
+//http://poj.org/problem?id=1258
+//http://www.voidcn.com/article/p-pcdxntiv-ct.html
+
+
+
+
+
+
+#include<stdio.h>
+#include<string.h>
+int mp[105][105];
+int lowest[105];
+bool vis[105];
+int n;
+
+
+int min()
+{
+    int i;
+    int m=100000,k=-1;
+    for(i=1;i<=n;i++)
+    {
+        if(!vis[i]&&lowest[i]<m)
+        {
+            m=lowest[k=i];
+
+        }
+    }
+    return k;
+}
+
+int main()
+{
+    int i,j;
+    int ans;
+    while(~scanf("%d",&n))
+    {
+        ans=0;
+        memset(vis,false,sizeof(vis));
+        for(i=1;i<=n;i++)
+        {
+            for(j=1;j<=n;j++)
+            {
+                scanf("%d",&mp[i][j]);
+            }
+
+        }
+        for(i=1;i<=n;i++)lowest[i]=mp[1][i];
+        vis[1]=true;
+        for(i=1;i<n;i++)
+        {
+            int k=min();
+            vis[k]=true;
+            ans+=lowest[k];
+            for(j=1;j<=n;j++)
+            {
+                if(mp[k][j]<lowest[j])
+                {
+                    lowest[j]=mp[k][j];
+                }
+            }
+        }
+        printf("%d\n",ans);
+    }
+}
