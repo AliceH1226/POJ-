@@ -1,0 +1,80 @@
+//http://poj.org/problem?id=2240
+//https://www.cnblogs.com/Silence-AC/p/3525974.html
+
+
+
+
+
+#include<stdio.h>
+#include<iostream>
+#include<map>
+#define INF 0x3f3f3f3f
+using namespace std;
+
+char money[30];
+char change1[30],change2[30];
+double Map[50][50];
+double trans;
+map<string,int>p;
+int n,m;
+
+void Floyd()
+{
+    for(int k=1;k<=n;k++)
+    {
+        for(int i=1;i<=n;i++)
+        {
+            for(int j=1;j<=n;j++)
+            {
+                if(Map[i][j]<Map[i][k]*Map[k][j])//multiplication rather than plus operation
+                {
+                    Map[i][j]=Map[i][k]*Map[k][j];
+                }
+            }
+        }
+    }
+}
+
+void Solve()
+{
+    int cnt=1;
+    while(~scanf("%d%*c",&n)&&n)
+    {
+        for(int i=1;i<=n;i++)
+        {
+            scanf("%s",money);
+            p[money]=i;
+            Map[i][i]=1;
+        }
+        scanf("%d%*c",&m);
+        for(int i=1;i<=m;i++)
+        {
+            scanf("%s%lf%s",change1,&trans,change2);
+            Map[p[change1]][p[change2]]=trans;
+
+        }
+        Floyd();
+        bool flag=false;
+        for(int i=1;i<=n;i++)
+        {
+            if(Map[i][i]>1)//notice: i to i, the currency turn to itself finally, which can determine arbitrage or not
+            {
+                flag=true;
+                break;
+            }
+        }
+        if(flag)
+        {
+            printf("Case %d: Yes\n",cnt++);
+        }
+        else
+        {
+            printf("Case %d: No\n",cnt++);
+        }
+    }
+}
+int main()
+{
+    Solve();
+    return 0;
+}
