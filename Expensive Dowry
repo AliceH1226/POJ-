@@ -71,10 +71,11 @@ int main()
         ans=INF;
         for(int i=1;i<=n;i++)
         {
-            int minLevel = Level[i];
+            int minLevel = Level[i];//set it to be the lowest Level currently
             for(int j=1;j<=n;j++)
             {
-               if(Level[j]-minLevel > m || minLevel > Level[j])vis[j]=1;
+               if(Level[j]-minLevel > m || minLevel > Level[j])vis[j]=1;//invalid Level, difference exceeds m or Level lower than minLevel
+               //if(abs(Level[j]-minLevel)>m)vis[j] is not correct, since it overlaps with the next i
                else vis[j]=0;
             }
             int now =dijkstra();
