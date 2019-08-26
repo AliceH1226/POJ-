@@ -1,0 +1,76 @@
+//http://poj.org/status
+//https://blog.csdn.net/hello_cmy/article/details/81354764
+
+
+
+
+
+
+#include<stdio.h>
+#include<string.h>
+#define inf 99999999
+
+char s[2010][2010];
+int e[2010][2010];
+int book[2010],dis[2010];
+
+int main()
+{
+    int i,j,k,n,min,count,sum,num;
+    while(~scanf("%d",&n))
+    {
+        if(n==0)break;
+        count=0;
+        sum=0;
+        num=0;
+        memset(e,0,sizeof(e));
+        memset(book,0,sizeof(book));
+        for(i=1;i<=n;i++)
+            scanf("%s",s[i]);
+        for(i=1;i<=n;i++)
+        {
+            for(j=1;j<=n;j++)
+            {
+                count=0;
+                for(k=0;k<7;k++)
+                {
+                    if(s[i][k]!=s[j][k])
+                    {
+                        count++;
+
+                    }
+                }
+                e[i][j]=e[j][i]=count;
+            }
+        }
+        for(i=1;i<=n;i++)
+        {
+            dis[i]=e[1][i];
+        }
+        book[1]=1;
+        num++;
+        while(num<n)
+        {
+            min=inf;
+            for(i=1;i<=n;i++)
+            {
+                if(book[i]==0&&dis[i]<min)
+                {
+                    min=dis[i];
+                    j=i;
+                }
+            }
+            if(min==inf)
+                break;
+            book[j]=1;
+            num++;
+            sum+=dis[j];
+            for(k=1;k<=n;k++)
+            {
+                if(book[k]==0&&dis[k]>e[j][k])
+                    dis[k]=e[j][k];
+            }
+        }
+        printf("The highest possible quality is 1/%d.\n",sum);
+    }
+}
