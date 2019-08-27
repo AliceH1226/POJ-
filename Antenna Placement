@@ -1,0 +1,104 @@
+//http://poj.org/problem?id=3020
+//https://www.cnblogs.com/zhang-yd/p/7932088.html
+
+
+
+
+
+
+#include<cstdio>
+#include<cstring>
+#include<vector>
+#include<iostream>
+using namespace std;
+
+const int maxn=1000;
+const int dx[4]={-1,1,0,0};
+const int dy[4]={0,0,-1,1};
+
+vector<int>v[maxn];
+
+char mp[maxn][maxn];
+
+int cnt,h,w,city[maxn][maxn],vis[maxn],match[maxn];
+
+bool dfs(int u)
+{
+    for(int i=0;i<v[u].size();i++)
+    {
+        int c=v[u][i];
+        if(vis[c]==0)
+        {
+            vis[c]=1;
+            if(match[c]<0||dfs(match[c]))
+            {
+                match[c]=u;
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+int main()
+{
+    int test_num;
+    scanf("%d",&test_num);
+
+    while(test_num--)
+    {
+        scanf("%d %d",&h,&w);
+        cnt=0;
+        memset(city,0,sizeof(city));
+        for(int i=0;i<h;i++)
+        {
+            getchar();
+            for(int j=0;j<w;j++)
+            {
+                scanf("%c",&mp[i][j]);
+                if(mp[i][j]=='*')
+                {
+                    city[i][j]=++cnt;
+
+                }
+            }
+        }
+        for(int i=0;i<=cnt;i++)
+        {
+            v[i].clear();
+        }
+
+        for(int i=0;i<h;i++)
+        {
+            for(int j=0;j<w;j++)
+            {
+                if(city[i][j]!=0)
+                {
+                    for(int k=0;k<4;k++)
+                    {
+                        int x=i+dx[k];
+                        int y=j+dy[k];
+                        if(x>=0&&x<h&&y>=0&&y<w&&city[x][y]!=0)
+                        {
+                            v[city[i][j]].push_back(city[x][y]);
+                        }
+                    }
+                }
+            }
+        }
+
+        memset(match,-1,sizeof(match));
+
+        int num=0;
+        for(int i=1;i<=cnt;i++)
+        {
+            memset(vis,0,sizeof(vis));
+            if(dfs(i))
+            {
+                ++num;
+            }
+        }
+        printf("%d\n",(cnt-(num/2)));
+
+    }
+}
